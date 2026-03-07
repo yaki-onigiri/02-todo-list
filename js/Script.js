@@ -10,6 +10,15 @@ button.addEventListener("click", function (){
     const li = document.createElement("li");
     li.textContent = text;
 
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "削除";
+
+    deleteButton.addEventListener("click", function(){
+        li.remove();
+    });
+
+    li.appendChild(deleteButton);
+
     list.appendChild(li);
 
     input.value = "";
