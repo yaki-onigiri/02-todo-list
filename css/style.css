@@ -1,0 +1,16 @@
+.completed {
+    text-decoration: line-through;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+button {
+    margin-left: 10px;
+}
