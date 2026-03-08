@@ -1,6 +1,8 @@
 const input = document.getElementById("todo-input");
 const button = document.getElementById("add-button");
 const list = document.getElementById("todo-list");
+const clearButton = document.getElementById("clear-Button");
+const taskCount = document.getElementById("task-count");
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ①　「タスク追加」の処理
@@ -13,6 +15,7 @@ button.addEventListener("click", function (){
 
     createTodo(text, false);
     saveTodos();
+    updateTaskCount();
 
     input.value = "";
 });
@@ -42,6 +45,7 @@ function saveTodos(){
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 
+
 function loadTodos(){
 
     const todos = JSON.parse(localStorage.getItem("todos")) || [];
@@ -54,6 +58,7 @@ function loadTodos(){
 }
 
 loadTodos();
+updateTaskCount();
 
 function createTodo(text, completed){
 
@@ -79,6 +84,7 @@ function createTodo(text, completed){
         }
 
         saveTodos();
+        updateTaskCount();
     });
 
     const deleteButton = document.createElement("button");
@@ -87,6 +93,7 @@ function createTodo(text, completed){
     deleteButton.addEventListener("click", function(){
         li.remove();
         saveTodos();
+        updateTaskCount();
     });
 
     li.appendChild(checkbox);
@@ -94,4 +101,22 @@ function createTodo(text, completed){
     li.appendChild(deleteButton);
 
     list.appendChild(li);
+}
+
+clearButton.addEventListener("click", function(){
+
+    if(confirm("本当にすべて削除しますか？")){
+        list.innerHTML = "";
+        saveTodos();
+        updateTaskCount();
+    }
+});
+
+function updateTaskCount(){
+
+    const total = document.querySelectorAll("#todo-list li").length;
+    const completed = document.querySelectorAll("#todo-list input:checked").length;
+    const remaining = total - completed;
+
+    taskCount.textContent = "残りタスク：" + remaining;
 }
