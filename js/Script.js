@@ -2,42 +2,16 @@ const input = document.getElementById("todo-input");
 const button = document.getElementById("add-button");
 const list = document.getElementById("todo-list");
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+// ①　「タスク追加」の処理
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
 button.addEventListener("click", function (){
     const text = input.value.trim();
 
     if (text ==="") return;
 
-    const li = document.createElement("li");
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-
-    const span = document.createElement("span");
-    span.textContent = text;
-
-    checkbox.addEventListener("change", function(){
-        if(checkbox.checked){
-            span.classList.add("completed");
-        }else{
-            span.classList.remove("completed");
-        }
-        saveTodos();
-    });
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "削除";
-
-    deleteButton.addEventListener("click", function(){
-        li.remove();
-        saveTodos();
-    });
-
-    li.appendChild(checkbox);
-    li.appendChild(span);
-    li.appendChild(deleteButton);
-
-    list.appendChild(li);
-
+    createTodo(text, false);
     saveTodos();
 
     input.value = "";
@@ -74,44 +48,50 @@ function loadTodos(){
 
     todos.forEach(function(todo){
 
-        const li = document.createElement("li");
+        createTodo(todo.text, todo.completed);
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = todo.completed;
-
-        const span = document.createElement("span");
-        span.textContent = todo.text;
-
-        if(todo.completed){
-            span.classList.add("completed");
-        }
-
-        checkbox.addEventListener("change", function(){
-
-            if(checkbox.checked){
-                span.classList.add("completed");
-            }else{
-                span.classList.remove("completed");
-            }
-
-            saveTodos();
-        });
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "削除";
-
-        deleteButton.addEventListener("click", function(){
-            li.remove();
-            saveTodos();
-        });
-
-        li.appendChild(checkbox);
-        li.appendChild(span);
-        li.appendChild(deleteButton);
-
-        list.appendChild(li);
     });
 }
 
 loadTodos();
+
+function createTodo(text, completed){
+
+    const li = document.createElement("li");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = completed;
+
+    const span = document.createElement("span");
+    span.textContent = text;
+
+    if(completed){
+        span.classList.add("completed");
+    }
+
+    checkbox.addEventListener("change", function(){
+
+        if(checkbox.checked){
+            span.classList.add("completed");
+        }else{
+            span.classList.remove("completed");
+        }
+
+        saveTodos();
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "削除";
+
+    deleteButton.addEventListener("click", function(){
+        li.remove();
+        saveTodos();
+    });
+
+    li.appendChild(checkbox);
+    li.appendChild(span);
+    li.appendChild(deleteButton);
+
+    list.appendChild(li);
+}
