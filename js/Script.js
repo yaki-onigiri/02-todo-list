@@ -1,11 +1,16 @@
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+// ①　「要素(const・DOM系)」の取得
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
 const input = document.getElementById("todo-input");
 const button = document.getElementById("add-button");
 const list = document.getElementById("todo-list");
 const clearButton = document.getElementById("clear-Button");
 const taskCount = document.getElementById("task-count");
+const clearCompletedBtn = document.getElementById("clearCompleted");
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-// ①　「タスク追加」の処理
+// ②　「イベント」設定の場所
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
 button.addEventListener("click", function (){
@@ -119,4 +124,22 @@ function updateTaskCount(){
     const remaining = total - completed;
 
     taskCount.textContent = "残りタスク：" + remaining;
+}
+
+clearCompletedBtn.addEventListener("click", clearCompletedTasks);
+
+function clearCompletedTasks(){
+    const tasks = document.querySelectorAll("#todo-list li");
+
+    tasks.forEach(function(task){
+
+        const checkbox = task.querySelector("input[type='checkbox']");
+
+        if (checkbox.checked){
+            task.remove();
+        }
+    });
+
+    saveTodos();
+    updateTaskCount();
 }
