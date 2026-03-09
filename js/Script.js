@@ -9,6 +9,10 @@ const clearButton = document.getElementById("clear-Button");
 const taskCount = document.getElementById("task-count");
 const clearCompletedBtn = document.getElementById("clearCompleted");
 
+const filterAll = document.getElementById("filter-all");
+const filterActive = document.getElementById("filter-active");
+const filterCompleted = document.getElementById("filter-completed");
+
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ②　「イベント」設定の場所
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -142,4 +146,39 @@ function clearCompletedTasks(){
 
     saveTodos();
     updateTaskCount();
+}
+
+filterAll.addEventListener("click", function(){
+    filterTodos("all");
+});
+
+filterActive.addEventListener("click", function(){
+    filterTodos("active");
+});
+
+filterCompleted.addEventListener("click", function(){
+    filterTodos("completed");
+});
+
+function filterTodos(type){
+
+    const todos = document.querySelectorAll("#todo-list li");
+
+    todos.forEach(function(todo){
+
+        const checkbox = todo.querySelector("input[type='checkbox']");
+        const completed = checkbox.checked;
+
+        if(type === "all"){
+            todo.style.display = "";
+        }
+
+        if(type === "active"){
+            todo.style.display = completed ? "none" : "";
+        }
+
+        if(type === "completed"){
+            todo.style.display = completed ? "" : "none";
+        }
+    });
 }
