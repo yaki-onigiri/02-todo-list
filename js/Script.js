@@ -12,6 +12,7 @@ const clearCompletedBtn = document.getElementById("clearCompleted");
 const filterAll = document.getElementById("filter-all");
 const filterActive = document.getElementById("filter-active");
 const filterCompleted = document.getElementById("filter-completed");
+const span = document.createElement("span");
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ②　「イベント」設定の場所
@@ -103,6 +104,25 @@ function createTodo(text, completed){
         li.remove();
         saveTodos();
         updateTaskCount();
+    });
+
+    // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+    // タスクをダブルクリック → タスク名を編集
+    // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+    span.addEventListener("dblclick", function(){
+
+        const newText = prompt("タスクを編集してください", span.textContent);
+
+        if(newText === null) return;
+
+        const trimmedText = newText.trim();
+
+        if(trimmedText === "") return;
+
+        span.textContent = trimmedText;
+
+        saveTodos();
     });
 
     li.appendChild(checkbox);
