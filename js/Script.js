@@ -1,3 +1,9 @@
+// =================================
+// １．フィルター状態用の変数を作る(26/3/10)
+// =================================
+
+let currentFilter = "all";
+
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ①　「要素(const・DOM系)」の取得
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -12,7 +18,6 @@ const clearCompletedBtn = document.getElementById("clearCompleted");
 const filterAll = document.getElementById("filter-all");
 const filterActive = document.getElementById("filter-active");
 const filterCompleted = document.getElementById("filter-completed");
-const span = document.createElement("span");
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ②　「イベント」設定の場所
@@ -68,6 +73,17 @@ function loadTodos(){
 }
 
 loadTodos();
+
+// =================================
+// ３．ページ読み込み時にフィルターを復元(26/3/10)
+// =================================
+const savedFilter = localStorage.getItem("filter");
+
+if(savedFilter){
+    currentFilter = savedFilter;
+    filterTodos(currentFilter);
+}
+
 updateTaskCount();
 
 function createTodo(text, completed){
@@ -168,16 +184,27 @@ function clearCompletedTasks(){
     updateTaskCount();
 }
 
+// ================================
+// ２．フィルタークリック時に保存(26/3/10)
+// ================================
+
+
 filterAll.addEventListener("click", function(){
-    filterTodos("all");
+    currentFilter = "all";
+    filterTodos(currentFilter);
+    localStorage.setItem("filter", currentFilter);
 });
 
 filterActive.addEventListener("click", function(){
-    filterTodos("active");
+    currentFilter = "active";
+    filterTodos(currentFilter);
+    localStorage.setItem("filter", currentFilter);
 });
 
 filterCompleted.addEventListener("click", function(){
-    filterTodos("completed");
+    currentFilter = "completed";
+    filterTodos(currentFilter);
+    localStorage.setItem("filter", currentFilter);
 });
 
 function filterTodos(type){
