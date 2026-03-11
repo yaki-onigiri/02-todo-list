@@ -3,6 +3,7 @@
 // =================================
 
 let currentFilter = "all";
+let draggedItem = null;
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ①　「要素(const・DOM系)」の取得
@@ -86,9 +87,34 @@ if(savedFilter){
 
 updateTaskCount();
 
+list.addEventListener("dragover", function(e){
+    e.preventDefault();
+});
+
+list.addEventListener("drop", function(e){
+
+    const target = e.target.closest("li");
+
+    if(!target || draggedItem === target) return;
+
+    list.insertBefore(draggedItem, target);
+
+    saveTodos();
+});
+
 function createTodo(text, completed){
 
     const li = document.createElement("li");
+
+    li.draggable = true;
+
+    li.addEventListener("dragstart", function(){
+        draggedItem = li;
+    });
+
+    li.addEventListener("dragend", function(){
+        draggedItem = null;
+    });
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -146,7 +172,7 @@ function createTodo(text, completed){
     li.appendChild(deleteButton);
 
     list.appendChild(li);
-}
+};
 
 clearButton.addEventListener("click", function(){
 
