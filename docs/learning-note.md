@@ -150,7 +150,7 @@ todo.style.display = "none";
 タスクの並び替えを行なうために、
 『HTML Drag and Drop API』を使用して実装しました。
 
-#### 使用したイベントコード
+使用したイベントコード
 
 - dragstart
 ドラッグ開始時に実行されるイベント。
@@ -161,14 +161,27 @@ todo.style.display = "none";
 - drop
 ドラッグされた要素を指定位置に移動する処理を実装しました。
 
-### 実装方法
+実装方法
 
 1.li要素に 'draggable = true' を設定。
 2.dragstart でドラッグ対象を保存。
 3.dropイベントで 'insertBefore()' を並び替え。
 
-### 学んだこと
+学んだこと
 
 - DOM操作で要素の順序を変更できる
 - Drag and Drop APIの基本的な仕組み
 - イベント移譲を使うことでイベント数を減らせる
+
+### ツール全体のレイアウトを管理しやすくする
+
+実装方法
+
+HTML全体を div class="container" で囲むことで
+CSSでレイアウトを管理しやすくしました。
+
+### レスポンシブ対応
+
+「@ media(max-width: ○○ px)」を使うことで、スマホ画面のときだけCSSを変更できるようにしました。
+
+---

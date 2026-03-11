@@ -1,5 +1,24 @@
+/* === 基本レイアウト === */
+
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
 .completed {
     text-decoration: line-through;
+}
+
+
+/* === 入力エリア === */
+
+input {
+    padding: 8px;
+}
+
+button {
+    padding: 8px;
 }
 
 ul {
@@ -11,6 +30,29 @@ li {
     margin-bottom: 10px;
 }
 
+/* === フィルター === */
+
+.filters {
+    margin-top: 10px;
+}
+
 button {
     margin-left: 10px;
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 15px;
+    }
+
+    input {
+        width: 75%;
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 50%;
+        margin-top: 8px;
+    }
 }
