@@ -185,3 +185,153 @@ CSSでレイアウトを管理しやすくしました。
 「@ media(max-width: ○○ px)」を使うことで、スマホ画面のときだけCSSを変更できるようにしました。
 
 ---
+
+## 2026-03-12
+
+### ドラッグ＆ドロップ機能の改善
+
+タスク並び替えの際に、1度の操作では画面に反映されない煩わしさをなくすためにコードを一部書き換えました。
+
+使用したコード
+
+・ドラッグ開始
+    li.addEventListener("dragstart", function(){
+        draggedItem = li;
+        li.classList.add("dragging");
+    });
+
+・ドラッグ終了
+    li.addEventListener("dragend", function(){
+        draggedItem = null;
+        li.classList.remove("dragging");
+    });
+
+・ドロップ処理
+    list.addEventListener("drop", function(e){
+        e.preventDefault();
+        const target = e.target.closest("li");
+        if(!target || !draggedItem || draggedItem === target) return;
+        const rect = target.getBoundingClientRect();
+        const offset = e.clientY - rect.top;
+        if (offset > rect.height / 2) {
+            target.after(draggedItem);
+            } else {
+                target.before(draggedItem);
+            }
+        saveTodos();
+    });
+
+実装方法
+
+    ①　タスク（li要素）に draggable = true を設定する
+
+    ②　dragstart でドラッグしているタスクを draggedItem に保存
+
+    ③　dragend でドラッグ状態を解除
+
+    ④　dragover で preventDefault() を設定しドロップ可能にする
+
+    ⑤　drop でドロップされた位置を取得
+
+    ⑥　マウス位置（clientY）を基準に
+        上半分 → before()
+        下半分 → after()
+    でタスクを並び替える
+
+    ⑦　並び替え後に saveTodos() を実行して保存
+
+### タスクの表示を整える
+
+スマホ画面でツールを使用する際に、チェックボックスを表示する場所とタスク名を表示する場所がアンバランスであったため、修正しました。
+
+使用したコード
+＜JavaScript＞
+    削除：const li = document.createElement("li");
+
+    理由：ページ読み込み時に空の<li>を1つ作ってしまうコードであるため。
+
+＜CSS＞（レスポンシブ内）
+
+    削除：
+    button {
+        width: 50%;
+    }
+    
+    理由：削除ボタンにも適用されてしまい、flexレイアウトが崩れる原因になってしまうため。
+
+    加筆：
+
+    .container{
+        padding:15px;
+    }
+
+    #todo-input{
+        width:100%;
+        margin-bottom:10px;
+    }
+
+    #add-button,
+    #clear-Button{
+        width:100%;
+        margin-top:8px;
+    }
+
+    .todo-item{
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+
+    .todo-item input{
+        width:auto;
+    }
+
+    .todo-text{
+        flex:1;
+    }
+
+    .todo-item button{
+        width:auto;
+    }
+
+### タスク欄の一番下に「空のタスク」が残るバグを修正
+
+使用したコード①
+
+・function loadTodos(){
+
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+    todos.forEach(function(todo){
+
+        createTodo(todo.text, todo.completed);
+
+    });
+}
+
+    ⇓（修正）
+
+・function loadTodos(){
+
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+    todos.forEach(function(todo){
+
+        if(!todo.text || todo.text.trim() === "") return;　⇐このコードを追加
+
+        createTodo(todo.text, todo.completed);
+
+    });
+}
+
+これによって「""」「null」「undefined」などのからタスクを無視できます。
+
+使用したコード②
+・ function saveTodos 内のコードを加筆修正
+
+    const text = li.querySelector("span").textContent;
+    　　　⇓
+    const text = li.querySelector("span").textContent.trim();　⇐trim()を追加
+    if(text === "") return;　⇐ここを追加
+
+このコードによって saveTodos() でも空文字を保存しないようにします。

@@ -1,13 +1,31 @@
 /* === 基本レイアウト === */
 
-.container {
-    max-width: 500px;
-    margin: 40px auto;
+body{
+    font-family: sans-serif;
+    background: #eee;
     padding: 20px;
+}
+
+.container {
+    max-width: 400px;
+    margin: auto;
+    /* padding: 20px; */
 }
 
 .completed {
     text-decoration: line-through;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.todo-text {
+    flex: 1;
 }
 
 
@@ -18,7 +36,7 @@ input {
 }
 
 button {
-    padding: 8px;
+    padding: 8px 12px;
 }
 
 ul {
@@ -40,19 +58,42 @@ button {
     margin-left: 10px;
 }
 
+.dragging {
+    opacity: 0.5;
+}
+
 @media (max-width: 600px) {
 
     .container {
         padding: 15px;
     }
 
-    input {
-        width: 75%;
+    #todo-input {
+        width: 100%;
         margin-bottom: 10px;
     }
 
-    button {
-        width: 50%;
+    #add-button,
+    #clear-Button {
+        width: 100%;
         margin-top: 8px;
+    }
+
+    .todo-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .todo-item input{
+        width: auto;
+    }
+
+    .todo-text {
+        flex: 1;
+    }
+
+    .todo-item button{
+        width: auto;
     }
 }

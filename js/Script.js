@@ -49,7 +49,10 @@ function saveTodos(){
 
     document.querySelectorAll("#todo-list li").forEach(function(li){
 
-        const text = li.querySelector("span").textContent;
+        const text = li.querySelector("span").textContent.trim();
+
+        if(text === "") return;
+
         const completed = li.querySelector("input").checked;
 
         todos.push({
@@ -67,6 +70,8 @@ function loadTodos(){
     const todos = JSON.parse(localStorage.getItem("todos")) || [];
 
     todos.forEach(function(todo){
+
+        if(!todo.text || todo.text.trim() === "") return;
 
         createTodo(todo.text, todo.completed);
 
@@ -93,11 +98,20 @@ list.addEventListener("dragover", function(e){
 
 list.addEventListener("drop", function(e){
 
+    e.preventDefault();
+
     const target = e.target.closest("li");
 
-    if(!target || draggedItem === target) return;
+    if(!target || !draggedItem || draggedItem === target) return;
 
-    list.insertBefore(draggedItem, target);
+    const rect = target.getBoundingClientRect();
+    const offset = e.clientY - rect.top;
+
+    if (offset > rect.height / 2) {
+        target.after(draggedItem);
+    } else {
+        target.before(draggedItem);
+    }
 
     saveTodos();
 });
@@ -105,15 +119,18 @@ list.addEventListener("drop", function(e){
 function createTodo(text, completed){
 
     const li = document.createElement("li");
+    li.classList.add("todo-item");
 
     li.draggable = true;
 
     li.addEventListener("dragstart", function(){
         draggedItem = li;
+        li.classList.add("dragging");
     });
 
     li.addEventListener("dragend", function(){
         draggedItem = null;
+        li.classList.remove("dragging");
     });
 
     const checkbox = document.createElement("input");

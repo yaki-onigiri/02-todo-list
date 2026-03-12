@@ -117,6 +117,7 @@ cd 02-todo-list
 - JSON.stringify / JSON.parse
 - “配列”と“オブジェクト”を使ったデータ管理
 - タスクフィルターの実装
+- dragstart / dragover / drop イベント
 
 ---
 
