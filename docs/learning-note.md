@@ -335,3 +335,34 @@ CSSでレイアウトを管理しやすくしました。
     if(text === "") return;　⇐ここを追加
 
 このコードによって saveTodos() でも空文字を保存しないようにします。
+
+### ダークモード機能の実装を追加
+
+ダークモードを実装するために以下の仕組みを実装しました。
+
+1．classList.toggle() を使って、body に dark クラスを付与
+2．localStorage を使い、ダークモード状態を保存
+3．ページ読み込み時に localStorage から状態を復元
+
+使用したコード
+＜CSS＞
+    body.dark {
+        background: #121212;
+        color: #ffffff;
+    }
+
+＜JavaScript＞
+    ①　darkModeToggle.addEventListener("click", function(){
+
+        document.body.classList.toggle("dark");
+
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("darkMode", isDark);
+    });
+
+    ②　const savedDarkMode = localStorage.getItem("darkMode");
+
+    if(savedDarkMode === "true"){
+        document.body.classList.add("dark");
+    }

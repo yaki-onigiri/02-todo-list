@@ -20,6 +20,10 @@ const filterAll = document.getElementById("filter-all");
 const filterActive = document.getElementById("filter-active");
 const filterCompleted = document.getElementById("filter-completed");
 
+
+// === ダークモード追加（26/03/12） ===
+const darkModeToggle = document.getElementById("dark-mode-toggle");
+
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 // ②　「イベント」設定の場所
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -79,6 +83,14 @@ function loadTodos(){
 }
 
 loadTodos();
+
+// === ダークモード状態を復元（26/03/12） ===
+
+const savedDarkMode = localStorage.getItem("darkMode");
+
+if(savedDarkMode === "true"){
+    document.body.classList.add("dark");
+}
 
 // =================================
 // ３．ページ読み込み時にフィルターを復元(26/3/10)
@@ -272,3 +284,13 @@ function filterTodos(type){
         }
     });
 }
+
+// === ダークモード追加（26/03/12） ===
+darkModeToggle.addEventListener("click", function(){
+
+    document.body.classList.toggle("dark");
+
+    const isDark = document.body.classList.contains("dark");
+
+    localStorage.setItem("darkMode", isDark);
+});

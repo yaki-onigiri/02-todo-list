@@ -217,3 +217,9 @@ drop イベント内で、マウス位置（clientY）を取得し、
 ・ dragstart / dragend / dragover / drop のイベントを組み合わせてドラッグ操作を実装する
 ・ preventDefault() を設定しないとドロップイベントが正しく動作できない
 ・マウス位置( clientY )を利用すると、ドロップ位置を判定できる
+
+実装②　ダークモード機能を追加
+・ダークモード切替ボタンを追加
+・CSS でダークテーマを作成
+・JavaScript でモード切替を実装
+・localStorage を使用して状態保存

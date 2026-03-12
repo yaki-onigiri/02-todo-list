@@ -97,3 +97,30 @@ button {
         width: auto;
     }
 }
+
+/* === ダークモード === */
+
+body.dark {
+    background: #121212;
+    color: #ffffff;
+}
+
+body.dark input {
+    background: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+body.dark button {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+body.dark .container {
+    background: #1a1a1a;
+}
+
+body.dark li {
+    border-bottom: 1px solid #444;
+}
