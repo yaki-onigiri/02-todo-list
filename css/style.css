@@ -7,9 +7,17 @@ body{
 }
 
 .container {
-    max-width: 400px;
+    max-width: 420px;
     margin: auto;
-    /* padding: 20px; */
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow:  0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .completed {
@@ -22,6 +30,20 @@ body{
     justify-content: space-between;
     gap: 10px;
     margin: 10px 0;
+
+    /* タスク追加時のアニメーションを追加 (26/03/14) */
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .todo-text {
@@ -37,6 +59,16 @@ input {
 
 button {
     padding: 8px 12px;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover{
+    background: #45a049;
 }
 
 ul {
@@ -46,20 +78,73 @@ ul {
 
 li {
     margin-bottom: 10px;
+    padding: 8px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    /* タスクを浮かび上がらせるエフェクトを付与 (26/03/14) */
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+/* タスクを浮かび上がらせるエフェクトを付与 (26/03/14) */
+li:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-area{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+#todo-input{
+    flex: 1;
+}
+
+.todo-item button {
+    background: #e74c3c;
+}
+
+.todo-item button:hover{
+    background: #c0392b;
 }
 
 /* === フィルター === */
 
 .filters {
-    margin-top: 10px;
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 }
 
 button {
     margin-left: 10px;
 }
 
+
+/* === 「すべて」のボタンのみ色が変わる 処理 (26/03/14) ===*/
+.filters button.active {
+    background: #2e7d32;
+}
+
 .dragging {
     opacity: 0.5;
+    /* 移動しているタスクを解りやすくする 処理 (26/03/14) */
+    background: #e3f2fd;
+    border: 2px dashed #2196f3;
+}
+
+#dark-mode-toggle{
+    display: block;
+    margin: 25px 0 0 auto;
+    background: #2a2a2a;
+}
+
+/* 「残りタスク数」の表示を強調する 処理 (26/03/14) */
+#task-count {
+    font-weight: bold;
+    margin-top: 15px;
 }
 
 @media (max-width: 600px) {
@@ -68,15 +153,9 @@ button {
         padding: 15px;
     }
 
-    #todo-input {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
     #add-button,
     #clear-Button {
-        width: 100%;
-        margin-top: 8px;
+        width: 48%;
     }
 
     .todo-item {
@@ -95,6 +174,16 @@ button {
 
     .todo-item button{
         width: auto;
+    }
+
+    .input-area{
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .button-group{
+        display: flex;
+        gap: 8px;
     }
 }
 
@@ -123,4 +212,5 @@ body.dark .container {
 
 body.dark li {
     border-bottom: 1px solid #444;
+    background: #2a2a2a;
 }

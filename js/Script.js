@@ -84,7 +84,9 @@ function loadTodos(){
 
 loadTodos();
 
-// === ダークモード状態を復元（26/03/12） ===
+// =====
+// ダークモード状態を「ページ読み込み時」に復元（26/03/12） 
+// =====
 
 const savedDarkMode = localStorage.getItem("darkMode");
 
@@ -263,6 +265,20 @@ filterCompleted.addEventListener("click", function(){
 });
 
 function filterTodos(type){
+
+
+    // =====
+    // 「すべて」のボタンのみ色が変わる 処理(26/03/14)
+    // =====
+    document.querySelectorAll(".filters button").forEach(function(btn){
+        btn.classList.remove("active");
+    });
+
+    if(type === "all") filterAll.classList.add("active");
+    if(type === "active") filterActive.classList.add("active");
+    if(type === "completed") filterCompleted.classList.add("active");
+
+
 
     const todos = document.querySelectorAll("#todo-list li");
 

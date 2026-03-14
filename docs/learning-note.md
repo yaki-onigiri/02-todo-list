@@ -366,3 +366,79 @@ CSSでレイアウトを管理しやすくしました。
     if(savedDarkMode === "true"){
         document.body.classList.add("dark");
     }
+
+## 2026-03-14
+
+### UI/UX改善
+
+１．『ドラッグ＆ドロップ』のときに、移動するタスクがどれか解りやすいように表示されるコードを書きました。
+
+具体的な方法
+ドラッグ中の要素には JavaScript 側で、`,dragging` クラスが付与されるため、そのクラスに対してスタイルを指定することで、見た目を変更できます。
+
+    <CSS>
+        .dragging {
+            opacity: 0.5;
+            /* 移動しているタスクを解りやすくする 処理 (26/03/14) */
+            background: #e3f2fd;
+            border: 2px dashed #2196f3;
+        }
+
+ポイント
+JSがクラスを付ける ⇒ CSSで見た目変更
+
+２．タスク追加時にアニメーションを付与することで、タスクを追加したイメージをもたせやすくしました。
+
+`.todo-item` が生成されたタイミングで `animation` を実行し、タスクが追加されたことを視覚的にわかりやすくしました。
+
+具体的な方法
+CSS で`.todo-item`に `animation` を指定し、`@keyframes fadeIn` で動きを定義します。
+
+    <CSS>
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 10px 0;
+
+            /* タスク追加時のアニメーションを追加 (26/03/14) */
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from{
+                opacity: 0;（ ⇐ 最初は透明）
+                transform: translateY(5px);（ ⇐ 少し下から）
+            }
+            to {
+                opacity: 1;（ ⇐ 最後は表示）
+                transform: translateY(0);（ ⇐ 最後は元の位置）
+            }
+        }
+
+３．マウスカーソルを記述したタスクに合わせることで、タスクを浮かび上がらせる表現がされるようにしました。
+
+    <CSS>
+        li {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            /* タスクを浮かび上がらせるエフェクトを付与 (26/03/14) */
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        /* タスクを浮かび上がらせるエフェクトを付与 (26/03/14) */
+        li:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+４．残りタスク数の表示を強調させました。
+
+    <CSS>
+        #task-count {
+            font-weight: bold;
+            margin-top: 15px;
+        }

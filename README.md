@@ -123,12 +123,12 @@ cd 02-todo-list
 - タスクフィルターの実装
 - dragstart / dragover / drop イベント
 - ダークモード（状態は localStorage で保存）
+- UI/UX 改善（hoverエフェクト・アニメーション を使用）
 
 ---
 
 ## 今後の改善予定
 
-・UIデザインの改善
 ・アニメーション追加
 
 ---
